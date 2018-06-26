@@ -248,7 +248,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/26/Spring-boot-WebMvcConfigrer/" itemprop="url">Untitled</a></h1>
+                <a class="post-title-link" href="/2018/06/26/Spring-boot-WebMvcConfigrer/" itemprop="url">WebMvcConfigrer</a></h1>
         
 
         <div class="post-meta">
@@ -300,140 +300,11 @@
       
         
           
-            <hr>
-<h2 id="WebMvcConfigrer"><a href="#WebMvcConfigrer" class="headerlink" title="WebMvcConfigrer"></a>WebMvcConfigrer</h2><p>spring boot 对spring MVC 有自动配置，能通过定义配置类并继承WebMvcConfigrerAdapter类。（后改为WebMvcConfigrer）</p>
-<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="自定义资源映射addResourceHandlers："><a href="#自定义资源映射addResourceHandlers：" class="headerlink" title="自定义资源映射addResourceHandlers："></a>自定义资源映射addResourceHandlers：</h3><p><img src="https://i.imgur.com/86Au0xr.png" alt=""></p>
+            <p>spring boot 对spring MVC 有自动配置，能通过定义配置类并继承WebMvcConfigrerAdapter类。（后改为WebMvcConfigrer）</p>
+<h2 id="自定义资源映射addResourceHandlers："><a href="#自定义资源映射addResourceHandlers：" class="headerlink" title="自定义资源映射addResourceHandlers："></a>自定义资源映射addResourceHandlers：</h2><p><img src="https://i.imgur.com/86Au0xr.png" alt=""></p>
 <h3 id="指定外部目录："><a href="#指定外部目录：" class="headerlink" title="指定外部目录："></a>指定外部目录：</h3><p><img src="https://i.imgur.com/gwTHpEY.png" alt=""></p>
-<h3 id="页面跳转addViewControllers：（返回页面不需要单独创建controller类与方法）"><a href="#页面跳转addViewControllers：（返回页面不需要单独创建controller类与方法）" class="headerlink" title="页面跳转addViewControllers：（返回页面不需要单独创建controller类与方法）"></a>页面跳转addViewControllers：（返回页面不需要单独创建controller类与方法）</h3><p><img src="https://i.imgur.com/38zbJjs.png" alt=""></p>
-<h3 id="拦截器addInterceptors"><a href="#拦截器addInterceptors" class="headerlink" title="拦截器addInterceptors"></a>拦截器addInterceptors</h3><p>要实现拦截器功能需要完成以下2个步骤：<br>（1）创建我们自己的拦截器类并实现 HandlerInterceptor 接口<br>（2） 重写WebMvcConfigurerAdapter中的addInterceptors方法把自定义的拦截器类添加进来即可<br><img src="https://i.imgur.com/I2Wd9qr.png" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/26/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="黄梦桦">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="黄梦桦的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/26/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-06-26T15:26:33+08:00">
-                2018-06-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+<h2 id="页面跳转addViewControllers：（返回页面不需要单独创建controller类与方法）"><a href="#页面跳转addViewControllers：（返回页面不需要单独创建controller类与方法）" class="headerlink" title="页面跳转addViewControllers：（返回页面不需要单独创建controller类与方法）"></a>页面跳转addViewControllers：（返回页面不需要单独创建controller类与方法）</h2><p><img src="https://i.imgur.com/38zbJjs.png" alt=""></p>
+<h2 id="拦截器addInterceptors"><a href="#拦截器addInterceptors" class="headerlink" title="拦截器addInterceptors"></a>拦截器addInterceptors</h2><p>要实现拦截器功能需要完成以下2个步骤：<br>（1）创建我们自己的拦截器类并实现 HandlerInterceptor 接口<br>（2） 重写WebMvcConfigurerAdapter中的addInterceptors方法把自定义的拦截器类添加进来即可<br><img src="https://i.imgur.com/I2Wd9qr.png" alt=""></p>
 
           
         
@@ -515,7 +386,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-count">1</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
