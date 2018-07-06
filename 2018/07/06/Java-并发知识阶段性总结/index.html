@@ -79,21 +79,21 @@
 
 
 
-<meta name="description" content="##io的同步与异步，阻塞与非阻塞 ###同步与异步的区别io的同步指io请求主动去取数据异步则相反，当缓冲区准备好数据后内核会主动通知io来拿数据 ###阻塞与非阻塞的区别普遍的socket接口都是阻塞型的，当请求未被满足，如数据未拿到，则该进程一直阻塞等待非阻塞io则是在第一次请求未被满足返回EWOULDBLOCK错误后结束当前请求，一段时间后重复请求，直到拿到数据 ###同步阻塞io：即bi">
+<meta name="description" content="io的同步与异步，阻塞与非阻塞同步与异步的区别io的同步指io请求主动去取数据异步则相反，当缓冲区准备好数据后内核会主动通知io来拿数据 阻塞与非阻塞的区别普遍的socket接口都是阻塞型的，当请求未被满足，如数据未拿到，则该进程一直阻塞等待非阻塞io则是在第一次请求未被满足返回EWOULDBLOCK错误后结束当前请求，一段时间后重复请求，直到拿到数据 同步阻塞io：即bio，面向字节流，当数据没">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Java 并发知识阶段性总结">
 <meta property="og:url" content="http://yoursite.com/2018/07/06/Java-并发知识阶段性总结/index.html">
 <meta property="og:site_name" content="黄梦桦的博客">
-<meta property="og:description" content="##io的同步与异步，阻塞与非阻塞 ###同步与异步的区别io的同步指io请求主动去取数据异步则相反，当缓冲区准备好数据后内核会主动通知io来拿数据 ###阻塞与非阻塞的区别普遍的socket接口都是阻塞型的，当请求未被满足，如数据未拿到，则该进程一直阻塞等待非阻塞io则是在第一次请求未被满足返回EWOULDBLOCK错误后结束当前请求，一段时间后重复请求，直到拿到数据 ###同步阻塞io：即bi">
+<meta property="og:description" content="io的同步与异步，阻塞与非阻塞同步与异步的区别io的同步指io请求主动去取数据异步则相反，当缓冲区准备好数据后内核会主动通知io来拿数据 阻塞与非阻塞的区别普遍的socket接口都是阻塞型的，当请求未被满足，如数据未拿到，则该进程一直阻塞等待非阻塞io则是在第一次请求未被满足返回EWOULDBLOCK错误后结束当前请求，一段时间后重复请求，直到拿到数据 同步阻塞io：即bio，面向字节流，当数据没">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://i.imgur.com/rfOgfVO.png">
 <meta property="og:image" content="https://i.imgur.com/7KES80y.png">
 <meta property="og:image" content="https://i.imgur.com/G1Gv2T4.png">
 <meta property="og:image" content="https://i.imgur.com/EMmFoX1.png">
-<meta property="og:updated_time" content="2018-07-06T09:55:42.922Z">
+<meta property="og:updated_time" content="2018-07-06T10:10:42.099Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 并发知识阶段性总结">
-<meta name="twitter:description" content="##io的同步与异步，阻塞与非阻塞 ###同步与异步的区别io的同步指io请求主动去取数据异步则相反，当缓冲区准备好数据后内核会主动通知io来拿数据 ###阻塞与非阻塞的区别普遍的socket接口都是阻塞型的，当请求未被满足，如数据未拿到，则该进程一直阻塞等待非阻塞io则是在第一次请求未被满足返回EWOULDBLOCK错误后结束当前请求，一段时间后重复请求，直到拿到数据 ###同步阻塞io：即bi">
+<meta name="twitter:description" content="io的同步与异步，阻塞与非阻塞同步与异步的区别io的同步指io请求主动去取数据异步则相反，当缓冲区准备好数据后内核会主动通知io来拿数据 阻塞与非阻塞的区别普遍的socket接口都是阻塞型的，当请求未被满足，如数据未拿到，则该进程一直阻塞等待非阻塞io则是在第一次请求未被满足返回EWOULDBLOCK错误后结束当前请求，一段时间后重复请求，直到拿到数据 同步阻塞io：即bio，面向字节流，当数据没">
 <meta name="twitter:image" content="https://i.imgur.com/rfOgfVO.png">
 
 
@@ -304,34 +304,32 @@
       
 
       
-        <p>##io的同步与异步，阻塞与非阻塞</p>
-<p>###同步与异步的区别<br>io的同步指io请求主动去取数据<br><br>异步则相反，当缓冲区准备好数据后内核会主动通知io来拿数据</p>
-<p>###阻塞与非阻塞的区别<br>普遍的socket接口都是阻塞型的，当请求未被满足，如数据未拿到，则该进程一直阻塞等待<br><br>非阻塞io则是在第一次请求未被满足返回EWOULDBLOCK错误后结束当前请求，一段时间后重复请求，直到拿到数据</p>
-<p>###同步阻塞io：<br>即bio，面向字节流，当数据没有传输完，io会一直阻塞着等待，一个连接一个线程</p>
-<p>###同步非阻塞io：<br>即nio，面向缓冲区，会在缓冲区准备好数据，一个请求一个线程</p>
-<p>###异步非阻塞io：<br>即aio(NIO.2)，一个有效请求一个线程，不需要轮询就实现了异步读写</p>
-<p>##ThreadLocal<br>ThreadLocal是线程本地变量（线程本地存储），其在每个线程中创建了一个副本，让线程拥有自己存储数据的副本<br><br>每个Thread内部都有一个ThreadLocal.ThreadLocalMap类型的成员变量threadLocals，能够以当前thread变量为key值存储变量<br></p>
-<p>##容器</p>
-<p>###同步容器：<br>Hashtable 、Vector</p>
-<p>###异步容器<br>concurrentHashMap、CopyOnWriterList<br><br>CopyOnWrite：先copy集合副本，在修改副本后，最后将原容器的引用指向副本，利用lock锁实现。</p>
-<p>##Condition<br>多线程间的协调通信工具，调用wait()方法使得线程释放锁，进行沉睡，直到其他线程调用signal()方法才苏醒并去争夺锁</p>
-<p>##AQS原理<br>被请求的资源空闲，则将请求的线程设为工作线程，并将资源锁定，其他来请求资源的线程将进入一个阻塞队列</p>
-<p>##CAS算法<br>当线程进行更新数据操作，对其传入的需要更新的数据与主内存其对应数据进行比较，相同即所更改的数据为最新时，才允许更改。<br><br>其核心为：<br><br>每次做修改操作都要 将其提供的数值与 主内存中锁存在的值进行循环对比，当两个值相同，即当前线程的工作内存中的值就是主内存中的值，没有其他线程在这个过程中进行过其他修改操作，从而实现原子性，但是这样效率不高，即将并发操作变成了同步操作，浪费CPU性能<br><br>do {<br><br>       var6 = this.getLongVolatile(var1, var2);<br><br>    } while(!this.compareAndSwapLong(var1, var2, var6, var6 + var4));//高并发情况下，可能线程需要不断循环执行while</p>
-<p>##Queue队列<br>先入先出（FIFO）的数据结构<br><br>Queue接口与List、Set同一级别，都是继承了Collection接口</p>
-<p>###常用队列<br>SyschronousQueue：容量为1的队列<br><br>LinkedBlockingQueue：链表形式，队列头与底共两把锁，约束生产者与消费者<br><br>ArrayBlockingQueue：数组形式，读写共用一把锁</p>
-<p>##Callable类<br>与Runnable类相似，但是他有返回值，其中执行方法为call（）</p>
-<p>###Future类<br>接受Callable的返回值类型，get（）方法拿出数据</p>
-<p>###FutureTask<br>Callable类与Future类的结合，更方便的使用<br><img src="https://i.imgur.com/rfOgfVO.png" alt=""></p>
-<p>##线程池<br>java.uitl.concurrent.ThreadPoolExecutor类是线程池中最核心的一个类<br><img src="https://i.imgur.com/7KES80y.png" alt=""><br>主要构造参数：<br><br>corePoolSize：核心线程数量，同时能运行几个线程<br><br>maximumPoolSize：总线程的数量<br><br>keepAliveTime：空闲线程的存活时间<br><br>unit：存活时间的时间单位（天、小时、分钟、秒、毫秒、微秒、纳秒）<br><br>workQueue：存放空闲等待线程的队列，主要有LinkedBlockingQueue、SynchronousQueue两种<br><br>threadFactory：线程工厂，主要用来创建线程<br><br>handler：表示拒绝处理任务时的策略</p>
-<p>###newCachedThreadPool<br><img src="https://i.imgur.com/G1Gv2T4.png" alt=""><br>其内部核心线程数为0，最大线程数为Integer.MAX_VALUE（int最大值：2的31次方-1）<br>即没有核心线程，线程池容量无限</p>
-<p>###newFixedThreadPool<br><img src="https://i.imgur.com/EMmFoX1.png" alt=""><br>其内部核心线程数和最大线程数都是初始化时传进的参数，而且空闲线程存活时间为0，即只有规定数量的核心线程数，没有等待的线程</p>
-<p>###ThreadPoolExecutor类中的重要方法<br>1、shutdown（），让线程池变成SHUTDOWN状态，不能再放入任务，但是会等待原有任务执行完<br><br>2、shutdownNow（），会让线程池变成STOP状态，停止所有正在执行的线程，返回未执行的任务<br><br>3、excute（），提交一个任务交给线程池去执行<br><br>4、submit（），提交一个任务交给线程池去执行，并返回执行结果</p>
-<p>##并发辅助类<br>concurrent包下辅助并发编程类：比如CountDownLatch，CyclicBarrier和Semaphore</p>
-<p>###CountDownLatch用法<br>初始化时输入线程数<br><br>调用countDown()方法使CountDownLatch对象中的计数减一<br><br>当CountDownLatch对象中的计数为0时，主程序中的latch.await()方法将不再阻塞主线程</p>
-<p>###CyclicBarrier用法<br>初始化时输入线程数<br><br>需要所输入的线程全部执行await()方法之后，线程会全部同时执行</p>
-<p>###Semaphore用法<br>初始化许可证数目（允许多少个线程执行）<br><br>acquire()用来获取一个许可，若无许可能够获得，则会一直等待，直到获得许可<br><br>release()用来释放许可。注意，在释放许可之前，必须先获获得许可</p>
-<p>###情景题<br>六个人同时去拿苹果，记录每个人从开始去拿到回到原地的时间，当所有人都回到原地，把时间告诉老师</p>
-<p>###思路<br>new concurrentHashMap()   用来存放每个线程所需时间<br><br>volatile int count        用来存放苹果数<br><br>new CountDownLatch(6)     用来计数完成的线程数，所有人结束后主线程将越过await()<br><br>new CyclicBarrier(6)      用来让6个线程同时开始，run方法都先运行await()方法，6个线程都运行后，同时开始执行后续的方法</p>
+        <h2 id="io的同步与异步，阻塞与非阻塞"><a href="#io的同步与异步，阻塞与非阻塞" class="headerlink" title="io的同步与异步，阻塞与非阻塞"></a>io的同步与异步，阻塞与非阻塞</h2><h3 id="同步与异步的区别"><a href="#同步与异步的区别" class="headerlink" title="同步与异步的区别"></a>同步与异步的区别</h3><p>io的同步指io请求主动去取数据<br>异步则相反，当缓冲区准备好数据后内核会主动通知io来拿数据</p>
+<h3 id="阻塞与非阻塞的区别"><a href="#阻塞与非阻塞的区别" class="headerlink" title="阻塞与非阻塞的区别"></a>阻塞与非阻塞的区别</h3><p>普遍的socket接口都是阻塞型的，当请求未被满足，如数据未拿到，则该进程一直阻塞等待<br>非阻塞io则是在第一次请求未被满足返回EWOULDBLOCK错误后结束当前请求，一段时间后重复请求，直到拿到数据</p>
+<h3 id="同步阻塞io："><a href="#同步阻塞io：" class="headerlink" title="同步阻塞io："></a>同步阻塞io：</h3><p>即bio，面向字节流，当数据没有传输完，io会一直阻塞着等待，一个连接一个线程</p>
+<h3 id="同步非阻塞io："><a href="#同步非阻塞io：" class="headerlink" title="同步非阻塞io："></a>同步非阻塞io：</h3><p>即nio，面向缓冲区，会在缓冲区准备好数据，一个请求一个线程</p>
+<h3 id="异步非阻塞io："><a href="#异步非阻塞io：" class="headerlink" title="异步非阻塞io："></a>异步非阻塞io：</h3><p>即aio(NIO.2)，一个有效请求一个线程，不需要轮询就实现了异步读写</p>
+<h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><p>ThreadLocal是线程本地变量（线程本地存储），其在每个线程中创建了一个副本，让线程拥有自己存储数据的副本<br>每个Thread内部都有一个ThreadLocal.ThreadLocalMap类型的成员变量threadLocals，能够以当前thread变量为key值存储变量</p>
+<h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><h3 id="同步容器："><a href="#同步容器：" class="headerlink" title="同步容器："></a>同步容器：</h3><p>Hashtable 、Vector</p>
+<h3 id="异步容器"><a href="#异步容器" class="headerlink" title="异步容器"></a>异步容器</h3><p>concurrentHashMap、CopyOnWriterList<br>CopyOnWrite：先copy集合副本，在修改副本后，最后将原容器的引用指向副本，利用lock锁实现。</p>
+<h2 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h2><p>多线程间的协调通信工具，调用wait()方法使得线程释放锁，进行沉睡，直到其他线程调用signal()方法才苏醒并去争夺锁</p>
+<h2 id="AQS原理"><a href="#AQS原理" class="headerlink" title="AQS原理"></a>AQS原理</h2><p>被请求的资源空闲，则将请求的线程设为工作线程，并将资源锁定，其他来请求资源的线程将进入一个阻塞队列</p>
+<h2 id="CAS算法"><a href="#CAS算法" class="headerlink" title="CAS算法"></a>CAS算法</h2><p>当线程进行更新数据操作，对其传入的需要更新的数据与主内存其对应数据进行比较，相同即所更改的数据为最新时，才允许更改。<br>其核心为：<br>每次做修改操作都要 将其提供的数值与 主内存中锁存在的值进行循环对比，当两个值相同，即当前线程的工作内存中的值就是主内存中的值，没有其他线程在这个过程中进行过其他修改操作，从而实现原子性，但是这样效率不高，即将并发操作变成了同步操作，浪费CPU性能<br>do {<br>       var6 = this.getLongVolatile(var1, var2);<br>    } while(!this.compareAndSwapLong(var1, var2, var6, var6 + var4));//高并发情况下，可能线程需要不断循环执行while</p>
+<h2 id="Queue队列"><a href="#Queue队列" class="headerlink" title="Queue队列"></a>Queue队列</h2><p>先入先出（FIFO）的数据结构<br>Queue接口与List、Set同一级别，都是继承了Collection接口</p>
+<h3 id="常用队列"><a href="#常用队列" class="headerlink" title="常用队列"></a>常用队列</h3><p>SyschronousQueue：容量为1的队列<br>LinkedBlockingQueue：链表形式，队列头与底共两把锁，约束生产者与消费者<br>ArrayBlockingQueue：数组形式，读写共用一把锁</p>
+<h2 id="Callable类"><a href="#Callable类" class="headerlink" title="Callable类"></a>Callable类</h2><p>与Runnable类相似，但是他有返回值，其中执行方法为call（）</p>
+<h3 id="Future类"><a href="#Future类" class="headerlink" title="Future类"></a>Future类</h3><p>接受Callable的返回值类型，get（）方法拿出数据</p>
+<h3 id="FutureTask"><a href="#FutureTask" class="headerlink" title="FutureTask"></a>FutureTask</h3><p>Callable类与Future类的结合，更方便的使用<br><img src="https://i.imgur.com/rfOgfVO.png" alt=""></p>
+<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>java.uitl.concurrent.ThreadPoolExecutor类是线程池中最核心的一个类<br><img src="https://i.imgur.com/7KES80y.png" alt=""><br>主要构造参数：<br>corePoolSize：核心线程数量，同时能运行几个线程<br>maximumPoolSize：总线程的数量<br>keepAliveTime：空闲线程的存活时间<br>unit：存活时间的时间单位（天、小时、分钟、秒、毫秒、微秒、纳秒）<br>workQueue：存放空闲等待线程的队列，主要有LinkedBlockingQueue、SynchronousQueue两种<br>threadFactory：线程工厂，主要用来创建线程<br>handler：表示拒绝处理任务时的策略</p>
+<h3 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool"></a>newCachedThreadPool</h3><p><img src="https://i.imgur.com/G1Gv2T4.png" alt=""><br>其内部核心线程数为0，最大线程数为Integer.MAX_VALUE（int最大值：2的31次方-1）<br>即没有核心线程，线程池容量无限</p>
+<h3 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool"></a>newFixedThreadPool</h3><p><img src="https://i.imgur.com/EMmFoX1.png" alt=""><br>其内部核心线程数和最大线程数都是初始化时传进的参数，而且空闲线程存活时间为0，即只有规定数量的核心线程数，没有等待的线程</p>
+<h3 id="ThreadPoolExecutor类中的重要方法"><a href="#ThreadPoolExecutor类中的重要方法" class="headerlink" title="ThreadPoolExecutor类中的重要方法"></a>ThreadPoolExecutor类中的重要方法</h3><p>1、shutdown（），让线程池变成SHUTDOWN状态，不能再放入任务，但是会等待原有任务执行完<br>2、shutdownNow（），会让线程池变成STOP状态，停止所有正在执行的线程，返回未执行的任务<br>3、excute（），提交一个任务交给线程池去执行<br>4、submit（），提交一个任务交给线程池去执行，并返回执行结果</p>
+<h2 id="并发辅助类"><a href="#并发辅助类" class="headerlink" title="并发辅助类"></a>并发辅助类</h2><p>concurrent包下辅助并发编程类：比如CountDownLatch，CyclicBarrier和Semaphore</p>
+<h3 id="CountDownLatch用法"><a href="#CountDownLatch用法" class="headerlink" title="CountDownLatch用法"></a>CountDownLatch用法</h3><p>初始化时输入线程数<br>调用countDown()方法使CountDownLatch对象中的计数减一<br>当CountDownLatch对象中的计数为0时，主程序中的latch.await()方法将不再阻塞主线程</p>
+<h3 id="CyclicBarrier用法"><a href="#CyclicBarrier用法" class="headerlink" title="CyclicBarrier用法"></a>CyclicBarrier用法</h3><p>初始化时输入线程数<br>需要所输入的线程全部执行await()方法之后，线程会全部同时执行</p>
+<h3 id="Semaphore用法"><a href="#Semaphore用法" class="headerlink" title="Semaphore用法"></a>Semaphore用法</h3><p>初始化许可证数目（允许多少个线程执行）<br>acquire()用来获取一个许可，若无许可能够获得，则会一直等待，直到获得许可<br>release()用来释放许可。注意，在释放许可之前，必须先获获得许可</p>
+<h3 id="情景题"><a href="#情景题" class="headerlink" title="情景题"></a>情景题</h3><p>六个人同时去拿苹果，记录每个人从开始去拿到回到原地的时间，当所有人都回到原地，把时间告诉老师</p>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>new concurrentHashMap()   用来存放每个线程所需时间<br>volatile int count        用来存放苹果数<br>new CountDownLatch(6)     用来计数完成的线程数，所有人结束后主线程将越过await()<br>new CyclicBarrier(6)      用来让6个线程同时开始，run方法都先运行await()方法，6个线程都运行后，同时开始执行后续的方法</p>
 
       
     </div>
@@ -416,8 +414,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -463,6 +470,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#io的同步与异步，阻塞与非阻塞"><span class="nav-number">1.</span> <span class="nav-text">io的同步与异步，阻塞与非阻塞</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步与异步的区别"><span class="nav-number">1.1.</span> <span class="nav-text">同步与异步的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞与非阻塞的区别"><span class="nav-number">1.2.</span> <span class="nav-text">阻塞与非阻塞的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同步阻塞io："><span class="nav-number">1.3.</span> <span class="nav-text">同步阻塞io：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#同步非阻塞io："><span class="nav-number">1.4.</span> <span class="nav-text">同步非阻塞io：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步非阻塞io："><span class="nav-number">1.5.</span> <span class="nav-text">异步非阻塞io：</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ThreadLocal"><span class="nav-number">2.</span> <span class="nav-text">ThreadLocal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#容器"><span class="nav-number">3.</span> <span class="nav-text">容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同步容器："><span class="nav-number">3.1.</span> <span class="nav-text">同步容器：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步容器"><span class="nav-number">3.2.</span> <span class="nav-text">异步容器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Condition"><span class="nav-number">4.</span> <span class="nav-text">Condition</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AQS原理"><span class="nav-number">5.</span> <span class="nav-text">AQS原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CAS算法"><span class="nav-number">6.</span> <span class="nav-text">CAS算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Queue队列"><span class="nav-number">7.</span> <span class="nav-text">Queue队列</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常用队列"><span class="nav-number">7.1.</span> <span class="nav-text">常用队列</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Callable类"><span class="nav-number">8.</span> <span class="nav-text">Callable类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Future类"><span class="nav-number">8.1.</span> <span class="nav-text">Future类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FutureTask"><span class="nav-number">8.2.</span> <span class="nav-text">FutureTask</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程池"><span class="nav-number">9.</span> <span class="nav-text">线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#newCachedThreadPool"><span class="nav-number">9.1.</span> <span class="nav-text">newCachedThreadPool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#newFixedThreadPool"><span class="nav-number">9.2.</span> <span class="nav-text">newFixedThreadPool</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ThreadPoolExecutor类中的重要方法"><span class="nav-number">9.3.</span> <span class="nav-text">ThreadPoolExecutor类中的重要方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发辅助类"><span class="nav-number">10.</span> <span class="nav-text">并发辅助类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CountDownLatch用法"><span class="nav-number">10.1.</span> <span class="nav-text">CountDownLatch用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CyclicBarrier用法"><span class="nav-number">10.2.</span> <span class="nav-text">CyclicBarrier用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Semaphore用法"><span class="nav-number">10.3.</span> <span class="nav-text">Semaphore用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#情景题"><span class="nav-number">10.4.</span> <span class="nav-text">情景题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思路"><span class="nav-number">10.5.</span> <span class="nav-text">思路</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
