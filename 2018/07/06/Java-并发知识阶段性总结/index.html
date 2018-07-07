@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://i.imgur.com/7KES80y.png">
 <meta property="og:image" content="https://i.imgur.com/G1Gv2T4.png">
 <meta property="og:image" content="https://i.imgur.com/EMmFoX1.png">
-<meta property="og:updated_time" content="2018-07-06T10:10:42.099Z">
+<meta property="og:updated_time" content="2018-07-07T08:08:06.685Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 并发知识阶段性总结">
 <meta name="twitter:description" content="io的同步与异步，阻塞与非阻塞同步与异步的区别io的同步指io请求主动去取数据异步则相反，当缓冲区准备好数据后内核会主动通知io来拿数据 阻塞与非阻塞的区别普遍的socket接口都是阻塞型的，当请求未被满足，如数据未拿到，则该进程一直阻塞等待非阻塞io则是在第一次请求未被满足返回EWOULDBLOCK错误后结束当前请求，一段时间后重复请求，直到拿到数据 同步阻塞io：即bio，面向字节流，当数据没">
@@ -309,6 +309,7 @@
 <h3 id="同步阻塞io："><a href="#同步阻塞io：" class="headerlink" title="同步阻塞io："></a>同步阻塞io：</h3><p>即bio，面向字节流，当数据没有传输完，io会一直阻塞着等待，一个连接一个线程</p>
 <h3 id="同步非阻塞io："><a href="#同步非阻塞io：" class="headerlink" title="同步非阻塞io："></a>同步非阻塞io：</h3><p>即nio，面向缓冲区，会在缓冲区准备好数据，一个请求一个线程</p>
 <h3 id="异步非阻塞io："><a href="#异步非阻塞io：" class="headerlink" title="异步非阻塞io："></a>异步非阻塞io：</h3><p>即aio(NIO.2)，一个有效请求一个线程，不需要轮询就实现了异步读写</p>
+<a id="more"></a>
 <h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><p>ThreadLocal是线程本地变量（线程本地存储），其在每个线程中创建了一个副本，让线程拥有自己存储数据的副本<br>每个Thread内部都有一个ThreadLocal.ThreadLocalMap类型的成员变量threadLocals，能够以当前thread变量为key值存储变量</p>
 <h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><h3 id="同步容器："><a href="#同步容器：" class="headerlink" title="同步容器："></a>同步容器：</h3><p>Hashtable 、Vector</p>
 <h3 id="异步容器"><a href="#异步容器" class="headerlink" title="异步容器"></a>异步容器</h3><p>concurrentHashMap、CopyOnWriterList<br>CopyOnWrite：先copy集合副本，在修改副本后，最后将原容器的引用指向副本，利用lock锁实现。</p>

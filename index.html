@@ -299,35 +299,18 @@
 
       
         
-          
-            <h2 id="io的同步与异步，阻塞与非阻塞"><a href="#io的同步与异步，阻塞与非阻塞" class="headerlink" title="io的同步与异步，阻塞与非阻塞"></a>io的同步与异步，阻塞与非阻塞</h2><h3 id="同步与异步的区别"><a href="#同步与异步的区别" class="headerlink" title="同步与异步的区别"></a>同步与异步的区别</h3><p>io的同步指io请求主动去取数据<br>异步则相反，当缓冲区准备好数据后内核会主动通知io来拿数据</p>
+          <h2 id="io的同步与异步，阻塞与非阻塞"><a href="#io的同步与异步，阻塞与非阻塞" class="headerlink" title="io的同步与异步，阻塞与非阻塞"></a>io的同步与异步，阻塞与非阻塞</h2><h3 id="同步与异步的区别"><a href="#同步与异步的区别" class="headerlink" title="同步与异步的区别"></a>同步与异步的区别</h3><p>io的同步指io请求主动去取数据<br>异步则相反，当缓冲区准备好数据后内核会主动通知io来拿数据</p>
 <h3 id="阻塞与非阻塞的区别"><a href="#阻塞与非阻塞的区别" class="headerlink" title="阻塞与非阻塞的区别"></a>阻塞与非阻塞的区别</h3><p>普遍的socket接口都是阻塞型的，当请求未被满足，如数据未拿到，则该进程一直阻塞等待<br>非阻塞io则是在第一次请求未被满足返回EWOULDBLOCK错误后结束当前请求，一段时间后重复请求，直到拿到数据</p>
 <h3 id="同步阻塞io："><a href="#同步阻塞io：" class="headerlink" title="同步阻塞io："></a>同步阻塞io：</h3><p>即bio，面向字节流，当数据没有传输完，io会一直阻塞着等待，一个连接一个线程</p>
 <h3 id="同步非阻塞io："><a href="#同步非阻塞io：" class="headerlink" title="同步非阻塞io："></a>同步非阻塞io：</h3><p>即nio，面向缓冲区，会在缓冲区准备好数据，一个请求一个线程</p>
 <h3 id="异步非阻塞io："><a href="#异步非阻塞io：" class="headerlink" title="异步非阻塞io："></a>异步非阻塞io：</h3><p>即aio(NIO.2)，一个有效请求一个线程，不需要轮询就实现了异步读写</p>
-<h2 id="ThreadLocal"><a href="#ThreadLocal" class="headerlink" title="ThreadLocal"></a>ThreadLocal</h2><p>ThreadLocal是线程本地变量（线程本地存储），其在每个线程中创建了一个副本，让线程拥有自己存储数据的副本<br>每个Thread内部都有一个ThreadLocal.ThreadLocalMap类型的成员变量threadLocals，能够以当前thread变量为key值存储变量</p>
-<h2 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h2><h3 id="同步容器："><a href="#同步容器：" class="headerlink" title="同步容器："></a>同步容器：</h3><p>Hashtable 、Vector</p>
-<h3 id="异步容器"><a href="#异步容器" class="headerlink" title="异步容器"></a>异步容器</h3><p>concurrentHashMap、CopyOnWriterList<br>CopyOnWrite：先copy集合副本，在修改副本后，最后将原容器的引用指向副本，利用lock锁实现。</p>
-<h2 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h2><p>多线程间的协调通信工具，调用wait()方法使得线程释放锁，进行沉睡，直到其他线程调用signal()方法才苏醒并去争夺锁</p>
-<h2 id="AQS原理"><a href="#AQS原理" class="headerlink" title="AQS原理"></a>AQS原理</h2><p>被请求的资源空闲，则将请求的线程设为工作线程，并将资源锁定，其他来请求资源的线程将进入一个阻塞队列</p>
-<h2 id="CAS算法"><a href="#CAS算法" class="headerlink" title="CAS算法"></a>CAS算法</h2><p>当线程进行更新数据操作，对其传入的需要更新的数据与主内存其对应数据进行比较，相同即所更改的数据为最新时，才允许更改。<br>其核心为：<br>每次做修改操作都要 将其提供的数值与 主内存中锁存在的值进行循环对比，当两个值相同，即当前线程的工作内存中的值就是主内存中的值，没有其他线程在这个过程中进行过其他修改操作，从而实现原子性，但是这样效率不高，即将并发操作变成了同步操作，浪费CPU性能<br>do {<br>       var6 = this.getLongVolatile(var1, var2);<br>    } while(!this.compareAndSwapLong(var1, var2, var6, var6 + var4));//高并发情况下，可能线程需要不断循环执行while</p>
-<h2 id="Queue队列"><a href="#Queue队列" class="headerlink" title="Queue队列"></a>Queue队列</h2><p>先入先出（FIFO）的数据结构<br>Queue接口与List、Set同一级别，都是继承了Collection接口</p>
-<h3 id="常用队列"><a href="#常用队列" class="headerlink" title="常用队列"></a>常用队列</h3><p>SyschronousQueue：容量为1的队列<br>LinkedBlockingQueue：链表形式，队列头与底共两把锁，约束生产者与消费者<br>ArrayBlockingQueue：数组形式，读写共用一把锁</p>
-<h2 id="Callable类"><a href="#Callable类" class="headerlink" title="Callable类"></a>Callable类</h2><p>与Runnable类相似，但是他有返回值，其中执行方法为call（）</p>
-<h3 id="Future类"><a href="#Future类" class="headerlink" title="Future类"></a>Future类</h3><p>接受Callable的返回值类型，get（）方法拿出数据</p>
-<h3 id="FutureTask"><a href="#FutureTask" class="headerlink" title="FutureTask"></a>FutureTask</h3><p>Callable类与Future类的结合，更方便的使用<br><img src="https://i.imgur.com/rfOgfVO.png" alt=""></p>
-<h2 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h2><p>java.uitl.concurrent.ThreadPoolExecutor类是线程池中最核心的一个类<br><img src="https://i.imgur.com/7KES80y.png" alt=""><br>主要构造参数：<br>corePoolSize：核心线程数量，同时能运行几个线程<br>maximumPoolSize：总线程的数量<br>keepAliveTime：空闲线程的存活时间<br>unit：存活时间的时间单位（天、小时、分钟、秒、毫秒、微秒、纳秒）<br>workQueue：存放空闲等待线程的队列，主要有LinkedBlockingQueue、SynchronousQueue两种<br>threadFactory：线程工厂，主要用来创建线程<br>handler：表示拒绝处理任务时的策略</p>
-<h3 id="newCachedThreadPool"><a href="#newCachedThreadPool" class="headerlink" title="newCachedThreadPool"></a>newCachedThreadPool</h3><p><img src="https://i.imgur.com/G1Gv2T4.png" alt=""><br>其内部核心线程数为0，最大线程数为Integer.MAX_VALUE（int最大值：2的31次方-1）<br>即没有核心线程，线程池容量无限</p>
-<h3 id="newFixedThreadPool"><a href="#newFixedThreadPool" class="headerlink" title="newFixedThreadPool"></a>newFixedThreadPool</h3><p><img src="https://i.imgur.com/EMmFoX1.png" alt=""><br>其内部核心线程数和最大线程数都是初始化时传进的参数，而且空闲线程存活时间为0，即只有规定数量的核心线程数，没有等待的线程</p>
-<h3 id="ThreadPoolExecutor类中的重要方法"><a href="#ThreadPoolExecutor类中的重要方法" class="headerlink" title="ThreadPoolExecutor类中的重要方法"></a>ThreadPoolExecutor类中的重要方法</h3><p>1、shutdown（），让线程池变成SHUTDOWN状态，不能再放入任务，但是会等待原有任务执行完<br>2、shutdownNow（），会让线程池变成STOP状态，停止所有正在执行的线程，返回未执行的任务<br>3、excute（），提交一个任务交给线程池去执行<br>4、submit（），提交一个任务交给线程池去执行，并返回执行结果</p>
-<h2 id="并发辅助类"><a href="#并发辅助类" class="headerlink" title="并发辅助类"></a>并发辅助类</h2><p>concurrent包下辅助并发编程类：比如CountDownLatch，CyclicBarrier和Semaphore</p>
-<h3 id="CountDownLatch用法"><a href="#CountDownLatch用法" class="headerlink" title="CountDownLatch用法"></a>CountDownLatch用法</h3><p>初始化时输入线程数<br>调用countDown()方法使CountDownLatch对象中的计数减一<br>当CountDownLatch对象中的计数为0时，主程序中的latch.await()方法将不再阻塞主线程</p>
-<h3 id="CyclicBarrier用法"><a href="#CyclicBarrier用法" class="headerlink" title="CyclicBarrier用法"></a>CyclicBarrier用法</h3><p>初始化时输入线程数<br>需要所输入的线程全部执行await()方法之后，线程会全部同时执行</p>
-<h3 id="Semaphore用法"><a href="#Semaphore用法" class="headerlink" title="Semaphore用法"></a>Semaphore用法</h3><p>初始化许可证数目（允许多少个线程执行）<br>acquire()用来获取一个许可，若无许可能够获得，则会一直等待，直到获得许可<br>release()用来释放许可。注意，在释放许可之前，必须先获获得许可</p>
-<h3 id="情景题"><a href="#情景题" class="headerlink" title="情景题"></a>情景题</h3><p>六个人同时去拿苹果，记录每个人从开始去拿到回到原地的时间，当所有人都回到原地，把时间告诉老师</p>
-<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>new concurrentHashMap()   用来存放每个线程所需时间<br>volatile int count        用来存放苹果数<br>new CountDownLatch(6)     用来计数完成的线程数，所有人结束后主线程将越过await()<br>new CyclicBarrier(6)      用来让6个线程同时开始，run方法都先运行await()方法，6个线程都运行后，同时开始执行后续的方法</p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/06/Java-并发知识阶段性总结/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -444,14 +427,15 @@
 
       
         
-          
-            <p>这种在运行时，动态地将代码切入到类的指定方法、指定位置上的编程思想就是面向切面的编程。<br><img src="https://i.imgur.com/3jYOKpZ.png" alt=""></p>
+          <p>这种在运行时，动态地将代码切入到类的指定方法、指定位置上的编程思想就是面向切面的编程。<br><img src="https://i.imgur.com/3jYOKpZ.png" alt=""></p>
 <h2 id="第一步：添加maven依赖（aop）"><a href="#第一步：添加maven依赖（aop）" class="headerlink" title="第一步：添加maven依赖（aop）"></a>第一步：添加maven依赖（aop）</h2><p><img src="https://i.imgur.com/qREz3sW.png" alt=""></p>
-<h2 id="第二步：创建aop配置类（-Aspect）"><a href="#第二步：创建aop配置类（-Aspect）" class="headerlink" title="第二步：创建aop配置类（@Aspect）"></a>第二步：创建aop配置类（@Aspect）</h2><p><img src="https://i.imgur.com/GAkntbm.png" alt=""></p>
-<h2 id="第三步：命名切入点（-Pointcut）"><a href="#第三步：命名切入点（-Pointcut）" class="headerlink" title="第三步：命名切入点（@Pointcut）"></a>第三步：命名切入点（@Pointcut）</h2><p>根据Poincut注解的不同，切入点不同<br><img src="https://i.imgur.com/wSRXk8i.png" alt=""></p>
-<h2 id="AspectJ切入点指示符："><a href="#AspectJ切入点指示符：" class="headerlink" title="AspectJ切入点指示符："></a>AspectJ切入点指示符：</h2><p><img src="https://i.imgur.com/JWM0hQA.png" alt=""><br><img src="https://i.imgur.com/qm06fj2.png" alt=""></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/06/Spring-AOP-实现/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -568,14 +552,16 @@
 
       
         
-          
-            <p>spring boot 对spring MVC 有自动配置，能通过定义配置类并继承WebMvcConfigrerAdapter类。（后改为WebMvcConfigrer）</p>
+          <p>spring boot 对spring MVC 有自动配置，能通过定义配置类并继承WebMvcConfigrerAdapter类。（后改为WebMvcConfigrer）</p>
 <h2 id="自定义资源映射addResourceHandlers："><a href="#自定义资源映射addResourceHandlers：" class="headerlink" title="自定义资源映射addResourceHandlers："></a>自定义资源映射addResourceHandlers：</h2><p><img src="https://i.imgur.com/86Au0xr.png" alt=""></p>
 <h3 id="指定外部目录："><a href="#指定外部目录：" class="headerlink" title="指定外部目录："></a>指定外部目录：</h3><p><img src="https://i.imgur.com/gwTHpEY.png" alt=""></p>
-<h2 id="页面跳转addViewControllers：（返回页面不需要单独创建controller类与方法）"><a href="#页面跳转addViewControllers：（返回页面不需要单独创建controller类与方法）" class="headerlink" title="页面跳转addViewControllers：（返回页面不需要单独创建controller类与方法）"></a>页面跳转addViewControllers：（返回页面不需要单独创建controller类与方法）</h2><p><img src="https://i.imgur.com/38zbJjs.png" alt=""></p>
-<h2 id="拦截器addInterceptors"><a href="#拦截器addInterceptors" class="headerlink" title="拦截器addInterceptors"></a>拦截器addInterceptors</h2><p>要实现拦截器功能需要完成以下2个步骤：<br>（1）创建我们自己的拦截器类并实现 HandlerInterceptor 接口<br>（2） 重写WebMvcConfigurerAdapter中的addInterceptors方法把自定义的拦截器类添加进来即可<br><img src="https://i.imgur.com/I2Wd9qr.png" alt=""></p>
-
-          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/06/26/Spring-boot-WebMvcConfigrer/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
